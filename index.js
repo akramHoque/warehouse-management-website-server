@@ -26,7 +26,8 @@ async function run() {
       const items = await cursor.toArray();
       res.send(items);
     });
-    // manageInventories api
+
+    // manageInventories api create
 
     app.get('/manageInventories', async (req, res) => {
       const query = {};
@@ -35,7 +36,7 @@ async function run() {
       res.send(manageInventories);
     });
 
-    // Delete item
+    // Delete item from manageInventory page
 
     app.delete('/manageInventories/:id' , async(req, res) =>{
       const id = req.params.id ;
