@@ -45,6 +45,13 @@ async function run() {
       res.send(result);
     });
 
+    // post (add Item)
+    app.post('/items', async(req, res) => {
+      const newItem = req.body ;
+      const result = await fruitCollection.insertOne(newItem);
+      res.send(result);
+    } )
+
     // inventory:id 
 
     app.get('/inventory/:id', async(req, res) =>{
