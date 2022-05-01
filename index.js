@@ -26,6 +26,23 @@ async function run() {
       const items = await cursor.toArray();
       res.send(items);
     });
+    // manageInventories api
+
+    app.get('/manageInventories', async (req, res) => {
+      const query = {};
+      const cursor = fruitCollection.find(query);
+      const manageInventories = await cursor.toArray();
+      res.send(manageInventories);
+    });
+
+    // Delete item
+
+    app.delete('/manageInventories/:id' , async(req, res) =>{
+      const id = req.params.id ;
+      const query = {_id: ObjectId(id)} ;
+      const result = await fruitCollection.deleteOne(query) ;
+      res.send(result);
+    });
 
     // inventory:id 
 
