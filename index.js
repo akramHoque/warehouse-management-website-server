@@ -21,12 +21,14 @@ async function run() {
     const fruitCollection = client.db('FruitHouse').collection('items');
     const newOrderCollection = client.db('FruitHouse').collection('order');
 
+    // create order api to add new item
     app.post('/order', async (req, res) => {
     const order = req.body;
     const result = await newOrderCollection.insertOne(order);
     res.send(result);
     });
-
+    
+ // create order from database and show in ui
     app.get('/order', async(req, res) =>{
       const email = req.query.email ;
       // console.log(email)
