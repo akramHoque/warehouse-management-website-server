@@ -19,13 +19,22 @@ async function run() {
 
     await client.connect();
     const fruitCollection = client.db('FruitHouse').collection('items');
+    const newOrderCollection = client.db('FruitHouse').collection('order');
 
-    app.get('/items', async (req, res) => {
-      const query = {};
-      const cursor = fruitCollection.find(query);
-      const items = await cursor.toArray();
-      res.send(items);
+    app.post('/order', async (req, res) => {
+    const order = req.body;
+    const result = await newOrderCollection.insertOne(order);
+    res.send(result);
     });
+
+    app.get('/order', async(req, res) =>{
+      const email = req.query.email ;
+      // console.log(email)
+      const query = {email:email};
+      const cursor = newOrderCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    })
 
     // manageInventories api create
 
@@ -45,12 +54,24 @@ async function run() {
       res.send(result);
     });
 
-    // post (add Item)
+   
+    
     app.post('/items', async(req, res) => {
-      const newItem = req.body ;
-      const result = await fruitCollection.insertOne(newItem);
+      const items = req.body ;
+      console.log(items);
+      const result = await fruitCollection.insertOne(items);
       res.send(result);
-    } )
+    } );
+
+
+    app.get('/items', async (req, res) => {
+      const query = {};
+      const cursor = fruitCollection.find(query);
+      const items = await cursor.toArray();
+      res.send(items);
+    });
+
+   
 
     // inventory:id 
 
