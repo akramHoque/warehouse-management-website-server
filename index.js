@@ -5,7 +5,6 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-
 // middleware
 app.use(cors());
 app.use(express.json());
@@ -27,7 +26,7 @@ async function run() {
     const result = await newOrderCollection.insertOne(order);
     res.send(result);
     });
-    
+
  // create order from database and show in ui
     app.get('/order', async(req, res) =>{
       const email = req.query.email ;
@@ -57,7 +56,6 @@ async function run() {
     });
 
    
-    
     app.post('/items', async(req, res) => {
       const items = req.body ;
       console.log(items);
@@ -74,11 +72,11 @@ async function run() {
     });
 
    
-
     // inventory:id 
 
     app.get('/inventory/:id', async(req, res) =>{
       const id = req.params.id;
+      // console.log(id);
       const query = {_id: ObjectId(id)};
       const item = await fruitCollection.findOne(query);
       res.send(item);
