@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
@@ -19,6 +20,17 @@ async function run() {
     await client.connect();
     const fruitCollection = client.db('FruitHouse').collection('items');
     const newOrderCollection = client.db('FruitHouse').collection('order');
+
+        // AUTH
+        app.post('/token', async(req, res) => {
+          const email = req.body;
+          console.log(email);
+          const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET , {
+              expiresIn: '1d'
+          });
+          res.send({ accessToken });
+          console.log(accessToken)
+      })
 
     // create order api to add new item
     app.post('/order', async (req, res) => {
@@ -93,21 +105,25 @@ async function run() {
 
     app.put('/inventory/:id', async(req, res) =>{
       const id = req.params.id;
-      // console.log(id);
-      const updatedQuantity = req.body ;
-      console.log(updatedQuantity);
+     
+      const quantityFinal = req.body ;
+      
       const findWithFilter = {_id:ObjectId(id)}
-      // console.log(findWithFilter);
+     
       const options = {upsert: true};
       // console.log(options);
       const updatedDoc = {
         $set: {
-          quantityFinal:updatedQuantity
+          quantity:quantityFinal.newQuantity
         }
       };
-      // console.log(updatedDoc);
+      console.log(updatedDoc);
       const result = await fruitCollection.updateOne(findWithFilter, updatedDoc, options );
       res.send(result);
+
+
+      
+
 
     })
 
