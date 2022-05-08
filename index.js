@@ -164,13 +164,15 @@ async function run() {
 
 run().catch(console.dir);
 
-app.get('/hero', (req, res) =>{
-  console.log('hero is hero');
-})
+
 
 app.get('/', (req, res) => {
   res.send('Running assginment-11 server');
 });
+app.get('/hero', (req, res) =>{
+  res.send('hero is hero');
+})
+
 
 app.listen(port, () => {
   console.log('Listening to port', port)
