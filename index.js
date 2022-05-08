@@ -61,6 +61,12 @@ async function run() {
     res.send(result);
     });
 
+// test heroku
+
+app.get('/hero', (req, res) =>{
+  console.log('hero is hero');
+})
+
  // create order from database and show in ui
     app.get('/order', verifyJWT, async(req, res) =>{
     
