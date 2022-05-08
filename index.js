@@ -10,6 +10,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// verify jwt
+
 function verifyJWT (req, res, next){
   const authHeader = req.headers.authorization;
   if(!authHeader){
@@ -30,6 +32,7 @@ function verifyJWT (req, res, next){
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.k8nud.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+console.log(uri);
 
 async function run() {
   try {
@@ -37,6 +40,8 @@ async function run() {
     await client.connect();
     const fruitCollection = client.db('FruitHouse').collection('items');
     const newOrderCollection = client.db('FruitHouse').collection('order');
+
+    console.log('all routes should be working');
 
         // AUTH
         app.post('/token', async(req, res) => {
@@ -144,10 +149,6 @@ async function run() {
       console.log(updatedDoc);
       const result = await fruitCollection.updateOne(findWithFilter, updatedDoc, options );
       res.send(result);
-
-
-      
-
 
     })
 
