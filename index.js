@@ -63,9 +63,7 @@ async function run() {
 
 // test heroku
 
-app.get('/hero', (req, res) =>{
-  console.log('hero is hero');
-})
+
 
  // create order from database and show in ui
     app.get('/order', verifyJWT, async(req, res) =>{
@@ -166,7 +164,9 @@ app.get('/hero', (req, res) =>{
 
 run().catch(console.dir);
 
-
+app.get('/hero', (req, res) =>{
+  console.log('hero is hero');
+})
 
 app.get('/', (req, res) => {
   res.send('Running assginment-11 server');
